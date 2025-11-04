@@ -1,7 +1,15 @@
 from ..models.schemas import Archetype
 
 
-def classify_archetype(html: str, categories: list[str], infobox_name: str | None) -> Archetype:
+def classify_archetype(
+    html: str,
+    categories: list[str],
+    infobox_name: str | None,
+    archetype_hint: Archetype | None = None,
+) -> Archetype:
+    if archetype_hint:
+        return archetype_hint
+
     categories_lower = [cat.lower() for cat in categories]
 
     if infobox_name and "born" in infobox_name.lower():

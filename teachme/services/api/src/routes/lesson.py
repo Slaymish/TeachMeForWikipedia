@@ -15,7 +15,12 @@ router = APIRouter()
 @router.post("/", response_model=LessonResponse)
 async def create_lesson(request: LessonRequest) -> LessonResponse:
     revision = await retrieve_revision(request)
-    archetype = classify_archetype(revision.html, revision.categories, revision.infobox)
+    archetype = classify_archetype(
+        revision.html,
+        revision.categories,
+        revision.infobox,
+        archetype_hint=request.archetype_hint,
+    )
     level = determine_level(request.level, request.level_hint)
 
     cache_key = make_cache_key(

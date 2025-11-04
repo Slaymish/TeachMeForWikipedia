@@ -34,10 +34,17 @@ def build_context(revision_html: str, section: str | None) -> Sequence[str]:
     if section:
         anchor = section.lstrip("#")
         heading = soup.find(id=anchor)
+        heading_tag: Tag | None = None
         if isinstance(heading, Tag):
-            level = _heading_level(heading)
+            if heading.name and heading.name.startswith("h"):
+                heading_tag = heading
+            else:
+                heading_tag = heading.find_parent(["h1", "h2", "h3", "h4", "h5", "h6"])
+
+        if heading_tag is not None:
+            level = _heading_level(heading_tag)
             siblings: list[Tag] = []
-            for sibling in heading.next_siblings:
+            for sibling in heading_tag.next_siblings:
                 if not isinstance(sibling, Tag):
                     continue
                 if sibling.name and sibling.name.startswith("h") and _heading_level(sibling) <= level:
