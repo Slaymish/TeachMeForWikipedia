@@ -1,0 +1,22 @@
+[project]
+name = "teachme-api"
+version = "0.1.0"
+description = "TeachMe FastAPI service"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "httpx",
+    "pydantic",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.uvicorn]
+factory = false
+host = "0.0.0.0"
+port = 8000
+app = "teachme.services.api.src.main:app"

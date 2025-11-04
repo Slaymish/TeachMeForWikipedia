@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "TeachMe for Wikipedia",
+  "version": "0.1.0",
+  "description": "Turn any Wikipedia article into a tailored lesson.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_title": "TeachMe"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.wikipedia.org/*"],
+      "js": ["src/content.ts"],
+      "run_at": "document_end"
+    }
+  ]
+}

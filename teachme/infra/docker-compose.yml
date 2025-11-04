@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  api:
+    build: ../services/api
+    command: uvicorn teachme.services.api.src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://teachme:teachme@postgres:5432/teachme
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      - redis
+      - postgres
+
+  worker:
+    build: ../services/api
+    command: python -m teachme.services.worker.src.worker
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: teachme
+      POSTGRES_USER: teachme
+      POSTGRES_PASSWORD: teachme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
