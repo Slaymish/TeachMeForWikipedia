@@ -22,6 +22,7 @@ export interface Check {
 }
 
 export interface LessonResponse {
+  cache_key: string;
   meta: LessonMeta;
   claims: Claim[];
   lesson_markdown: string;
@@ -36,7 +37,10 @@ export interface LessonRequestPayload {
   lang: string;
   revision_id?: number;
   section?: string;
-  level: Level;
+  level?: Level;
+  level_hint?: Level;
+  archetype_hint?: Archetype;
+  rubric_version?: string;
 }
 
 export interface FeedbackPayload {

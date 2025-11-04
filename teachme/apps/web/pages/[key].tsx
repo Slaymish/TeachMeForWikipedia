@@ -17,9 +17,22 @@ const LessonPage: React.FC<LessonPageProps> = ({ cacheKey, lesson }) => (
 );
 
 export const getServerSideProps: GetServerSideProps<LessonPageProps> = async ({ params }) => {
-  const cacheKey = params?.key as string;
-  // Placeholder: fetch from API cache endpoint
-  const lesson: LessonResponse | null = null;
+  const cacheKeyParam = params?.key;
+  const cacheKey = typeof cacheKeyParam === "string" ? cacheKeyParam : Array.isArray(cacheKeyParam) ? cacheKeyParam[0] : "";
+  let lesson: LessonResponse | null = null;
+
+  if (cacheKey) {
+    const baseUrl = process.env.TEACHME_API_BASE_URL ?? "http://localhost:8000";
+    const url = `${baseUrl.replace(/\/$/, "")}/lesson/${encodeURIComponent(cacheKey)}`;
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        lesson = (await response.json()) as LessonResponse;
+      }
+    } catch (error) {
+      console.error("Failed to fetch lesson", error);
+    }
+  }
 
   return {
     props: {

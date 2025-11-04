@@ -3,4 +3,5 @@ from ..models.schemas import LessonRequest
 
 
 async def retrieve_revision(request: LessonRequest) -> RevisionData:
-    return await fetch_revision_html(request.title, request.revision_id, request.lang)
+    title = request.title.replace("_", " ").strip()
+    return await fetch_revision_html(title, request.revision_id, request.lang)

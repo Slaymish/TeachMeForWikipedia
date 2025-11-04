@@ -8,6 +8,7 @@ dependencies = [
     "uvicorn[standard]",
     "httpx",
     "pydantic",
+    "beautifulsoup4",
 ]
 
 [project.optional-dependencies]

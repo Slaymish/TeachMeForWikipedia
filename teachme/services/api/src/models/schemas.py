@@ -29,6 +29,7 @@ class Check(BaseModel):
 
 
 class LessonResponse(BaseModel):
+    cache_key: str
     meta: LessonMeta
     claims: list[Claim]
     lesson_markdown: str
@@ -43,7 +44,7 @@ class LessonRequest(BaseModel):
     lang: str
     revision_id: Optional[int]
     section: Optional[str]
-    level: Level = Field(default="l1")
+    level: Optional[Level] = Field(default=None)
     level_hint: Optional[Level] = None
     archetype_hint: Optional[Archetype] = None
     rubric_version: str = "v0"

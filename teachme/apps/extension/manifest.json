@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "Turn any Wikipedia article into a tailored lesson.",
   "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://api.teachme.local/*"
+  ],
   "action": {
     "default_title": "TeachMe"
   },
